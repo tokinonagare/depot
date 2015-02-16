@@ -32,8 +32,8 @@ class LineItemsController < ApplicationController
 
     respond_to do |format|
       if @line_item.save
-        format.html { redirect_to @line_item.cart, 
-          notice: 'Line item was successfully created.' }
+        format.html { redirect_to store_url }
+        format.js   { @current_item = @line_item }
         format.json { render :show, status: :created, location: @line_item }
       else
         format.html { render :new }
@@ -45,9 +45,12 @@ class LineItemsController < ApplicationController
   # PATCH/PUT /line_items/1
   # PATCH/PUT /line_items/1.json
   def update
+
     respond_to do |format|
       if @line_item.update(line_item_params)
-        format.html { redirect_to @line_item.cart }
+        format.html { redirect_to @line_item }
+        # format.html { redirect_to @line_item.cart }
+        # I have no idea why the previous code line like above? Check the original code not contain ".cart".
         format.json { render :show, status: :ok, location: @line_item }
       else
         format.html { render :edit }
