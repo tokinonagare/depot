@@ -38,6 +38,9 @@ class OrdersController < ApplicationController
       if @order.save
         Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
+        OrderNotifier.received(@order).deliver_later
+        #DEPRECATION WARNING: `#deliver` is deprecated and will be removed in Rails 5
+        #Use `#deliver_now` to deliver immediately or `#deliver_later` to deliver through Active Job
 
         format.html { redirect_to store_url, notice: 'Thank you for your order.' }
 
